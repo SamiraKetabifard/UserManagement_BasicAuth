@@ -46,8 +46,12 @@ public class AuthController {
         user.setEmail(signUpDto.getEmail());
         user.setPassword(passwordEncoder.encode(signUpDto.getPassword()));
 
-        String roleName = (signUpDto.getRole() != null && !signUpDto.getRole().isEmpty()) ?
-                "ROLE_" + signUpDto.getRole().toUpperCase() : "ROLE_USER";
+        String roleName;
+        if (signUpDto.getRole() != null && !signUpDto.getRole().isEmpty()) {
+            roleName = "ROLE_" + signUpDto.getRole().toUpperCase();
+        } else {
+            roleName = "ROLE_USER";
+        }
 
         Role role = roleRepository.findByName(roleName)
                 .orElseThrow(() -> new RuntimeException("Error: Role " + roleName + " not found."));

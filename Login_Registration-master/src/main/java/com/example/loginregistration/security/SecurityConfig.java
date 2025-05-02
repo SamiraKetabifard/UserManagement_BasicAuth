@@ -24,7 +24,7 @@ public class SecurityConfig {
         this.userDetailsService = userDetailsService;
     }
     @Bean
-    public static PasswordEncoder passwordEncoder() {
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
     @Bean
