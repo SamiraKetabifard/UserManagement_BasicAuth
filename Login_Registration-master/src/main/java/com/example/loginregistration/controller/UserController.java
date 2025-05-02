@@ -34,16 +34,14 @@ public class UserController {
     }
     @PutMapping("/{id}")
     public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User userDetails) {
-        Optional<User> userOptional = userRepository.findById(id);
-        if (userOptional.isPresent()) {
-            User user = userOptional.get();
-            user.setName(userDetails.getName());
-            user.setUsername(userDetails.getUsername());
-            user.setEmail(userDetails.getEmail());
-            return new ResponseEntity<>(userRepository.save(user), HttpStatus.OK);
-        } else {
+        User user = userRepository.findById(id).orElse(null);
+        if (user == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+        user.setName(userDetails.getName());
+        user.setUsername(userDetails.getUsername());
+        user.setEmail(userDetails.getEmail());
+        return new ResponseEntity<>(userRepository.save(user), HttpStatus.OK);
     }
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")

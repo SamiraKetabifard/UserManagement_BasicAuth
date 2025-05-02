@@ -11,6 +11,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import static org.hamcrest.Matchers.*;
@@ -21,14 +22,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
+@ActiveProfiles("test")
 class AuthIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;
-
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
     private RoleRepository roleRepository;
 
@@ -42,33 +42,29 @@ class AuthIntegrationTest {
             roleRepository.save(new Role("ROLE_ADMIN"));
         }
     }
-
     @Test
     void signUp_ShouldRegisterUser() throws Exception {
         SignUpDto signUpDto = new SignUpDto();
-        signUpDto.setName("Integration Test");
-        signUpDto.setUsername("integrationtest");
-        signUpDto.setEmail("integration@test.com");
-        signUpDto.setPassword("password123");
+        signUpDto.setName("samira");
+        signUpDto.setUsername("sami");
+        signUpDto.setEmail("sam@gmail.com");
+        signUpDto.setPassword("12");
         signUpDto.setRole("user");
-
         mockMvc.perform(post("/api/auth/signup")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                     {
-                        "name": "Integration Test",
-                        "username": "integrationtest",
-                        "email": "integration@test.com",
-                        "password": "password123",
+                        "name": "samira",
+                        "username": "sami",
+                        "email": "sam@gmail.com",
+                        "password": "12",
                         "role": "user"
                     }
                     """))
                 .andExpect(status().isOk())
                 .andExpect(content().string("User registered successfully"));
-
-        assertTrue(userRepository.existsByUsername("integrationtest"));
+        assertTrue(userRepository.existsByUsername("sami"));
     }
-
     @Test
     @WithMockUser(roles = "ADMIN")
     void getAllUsers_AdminAccess_ShouldReturnUsers() throws Exception {
@@ -76,7 +72,6 @@ class AuthIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(greaterThanOrEqualTo(0))));
     }
-
     @Test
     @WithMockUser
     void getAllUsers_NonAdminAccess_ShouldDenyAccess() throws Exception {

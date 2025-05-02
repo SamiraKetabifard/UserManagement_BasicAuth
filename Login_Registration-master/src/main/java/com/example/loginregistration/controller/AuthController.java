@@ -52,7 +52,6 @@ public class AuthController {
         } else {
             roleName = "ROLE_USER";
         }
-
         Role role = roleRepository.findByName(roleName)
                 .orElseThrow(() -> new RuntimeException("Error: Role " + roleName + " not found."));
         user.setRoles(Collections.singleton(role));
