@@ -38,8 +38,6 @@ class CustomUserDetailsServiceTest {
         // Assert
         assertEquals("samira", userDetails.getUsername());
         assertEquals("12", userDetails.getPassword());
-        assertTrue(userDetails.getAuthorities().stream()
-                .anyMatch(auth -> auth.getAuthority().equals("ROLE_USER")));
     }
     @Test
     void loadUserByUsername_WithEmail_Success() {

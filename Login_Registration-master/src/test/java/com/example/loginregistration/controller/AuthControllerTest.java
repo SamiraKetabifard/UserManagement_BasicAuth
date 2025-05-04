@@ -5,7 +5,6 @@ import com.example.loginregistration.entity.Role;
 import com.example.loginregistration.entity.User;
 import com.example.loginregistration.repository.RoleRepository;
 import com.example.loginregistration.repository.UserRepository;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

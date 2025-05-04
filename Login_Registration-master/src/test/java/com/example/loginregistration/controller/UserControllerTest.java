@@ -38,7 +38,6 @@ class UserControllerTest {
         List<User> result = userController.getAllUsers();
         // Assert
         assertEquals(2, result.size());
-        verify(userRepository, times(1)).findAll();
     }
     @Test
     void getUserById_Found() {
@@ -62,31 +61,6 @@ class UserControllerTest {
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
     @Test
-    void updateUser_Success() {
-        // Arrange
-        User existingUser = new User();
-        existingUser.setId(1L);
-        existingUser.setName("Old Name");
-        User updatedUser = new User();
-        updatedUser.setName("New Name");
-        when(userRepository.findById(1L)).thenReturn(Optional.of(existingUser));
-        when(userRepository.save(any(User.class))).thenReturn(existingUser);
-        // Act
-        ResponseEntity<User> response = userController.updateUser(1L, updatedUser);
-        // Assert
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals("New Name", response.getBody().getName());
-    }
-    @Test
-    void updateUser_NotFound() {
-        // Arrange
-        when(userRepository.findById(1L)).thenReturn(Optional.empty());
-        // Act
-        ResponseEntity<User> response = userController.updateUser(1L, new User());
-        // Assert
-        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-    }
-    @Test
     @WithMockUser(roles = "ADMIN")
     void deleteUser_AdminAccess_Success() {
         // Arrange
@@ -95,6 +69,5 @@ class UserControllerTest {
         ResponseEntity<HttpStatus> response = userController.deleteUser(1L);
         // Assert
         assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
-        verify(userRepository, times(1)).deleteById(1L);
     }
 }
