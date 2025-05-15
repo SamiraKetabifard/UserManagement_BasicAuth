@@ -26,9 +26,8 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException
                         ("User not found with username or email: " + usernameOrEmail));
 
-        Set<GrantedAuthority> authorities = user.getRoles().stream().map((role) ->
-                        new SimpleGrantedAuthority(role.getName()))
-                //.map(SimpleGrantedAuthority :: new).collect(Collectors.toSet());
+        Set <GrantedAuthority> authorities = user.getRoles().stream().map((role) ->
+        new SimpleGrantedAuthority(role.getName())) //.map(SimpleGrantedAuthority :: new).collect(Collectors.toSet());
                 .collect(Collectors.toSet());
         // Create and return a Spring Security User object (implements UserDetails)
         // using the user's username, encrypted password, and granted roles (authorities)
