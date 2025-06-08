@@ -35,66 +35,52 @@ class UserControllerTest {
         user2.setId(2L);
         List<User> users = Arrays.asList(user1, user2);
         when(userRepository.findAll()).thenReturn(users);
-
         // Act
         List<User> result = userController.getAllUsers();
-
         // Assert
         assertEquals(2, result.size());
         verify(userRepository, times(1)).findAll();
     }
-
     @Test
     void getUserById_Found() {
         // Arrange
         User user = new User();
         user.setId(1L);
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));
-
         // Act
         ResponseEntity<User> response = userController.getUserById(1L);
-
         // Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
         assertEquals(1L, response.getBody().getId());
     }
-
     @Test
     void getUserById_NotFound() {
         // Arrange
         when(userRepository.findById(1L)).thenReturn(Optional.empty());
-
         // Act
         ResponseEntity<User> response = userController.getUserById(1L);
-
         // Assert
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
         assertNull(response.getBody());
     }
-
     @Test
     void updateUser_Success() {
         // Arrange
         User existingUser = new User();
         existingUser.setId(1L);
-        existingUser.setName("Old Name");
-
+        existingUser.setName("samira");
         User updatedDetails = new User();
-        updatedDetails.setName("New Name");
-
+        updatedDetails.setName("samira ketabi");
         when(userRepository.findById(1L)).thenReturn(Optional.of(existingUser));
         when(userRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
-
         // Act
         ResponseEntity<User> response = userController.updateUser(1L, updatedDetails);
-
         // Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
-        assertEquals("New Name", response.getBody().getName());
+        assertEquals("samira ketabi", response.getBody().getName());
     }
-
     @Test
     void updateUser_NotFound() {
         // Arrange
