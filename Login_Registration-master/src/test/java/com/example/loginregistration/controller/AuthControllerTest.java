@@ -37,9 +37,9 @@ class AuthControllerTest {
     void registerUser_Success() {
         // Arrange
         SignUpDto signUpDto = new SignUpDto();
-        signUpDto.setName("Test User");
-        signUpDto.setUsername("testuser");
-        signUpDto.setEmail("test@example.com");
+        signUpDto.setName("sam");
+        signUpDto.setUsername("sami");
+        signUpDto.setEmail("s@gmail.com");
         signUpDto.setPassword("password");
         signUpDto.setRole("user");
 
@@ -80,7 +80,7 @@ class AuthControllerTest {
         // Arrange
         SignUpDto signUpDto = new SignUpDto();
         signUpDto.setUsername("newuser");
-        signUpDto.setEmail("existing@example.com");
+        signUpDto.setEmail("s@gmail.com");
 
         when(userRepository.existsByUsername(any())).thenReturn(false);
         when(userRepository.existsByEmail(any())).thenReturn(true);
@@ -98,9 +98,9 @@ class AuthControllerTest {
     void registerUser_RoleNotFound() {
         // Arrange
         SignUpDto signUpDto = new SignUpDto();
-        signUpDto.setName("Test User");
-        signUpDto.setUsername("testuser");
-        signUpDto.setEmail("test@example.com");
+        signUpDto.setName("r");
+        signUpDto.setUsername("r12");
+        signUpDto.setEmail("r@gmail.com");
         signUpDto.setPassword("password");
         signUpDto.setRole("invalid");
 

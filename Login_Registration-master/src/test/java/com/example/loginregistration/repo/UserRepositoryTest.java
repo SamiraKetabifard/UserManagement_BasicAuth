@@ -50,46 +50,46 @@ class UserRepositoryTest {
     void findByUsernameOrEmail_UsernameFound() {
         // Arrange
         User user = new User();
-        user.setUsername("testuser");
-        user.setEmail("test@example.com");
+        user.setUsername("samira");
+        user.setEmail("s@gmail.com");
         user.setPassword("password");
-        user.setName("Test User");
+        user.setName("samira");
         entityManager.persist(user);
         entityManager.flush();
 
         // Act - search by username
-        Optional<User> found = userRepository.findByUsernameOrEmail("testuser", "nonexistent@example.com");
+        Optional<User> found = userRepository.findByUsernameOrEmail("samira", "s@gmail.com");
 
         // Assert
         assertTrue(found.isPresent());
-        assertEquals("testuser", found.get().getUsername());
-        assertEquals("test@example.com", found.get().getEmail());
+        assertEquals("samira", found.get().getUsername());
+        assertEquals("s@gmail.com", found.get().getEmail());
     }
 
     @Test
     void findByUsernameOrEmail_EmailFound() {
         // Arrange
         User user = new User();
-        user.setUsername("testuser");
-        user.setEmail("test@example.com");
+        user.setUsername("samira");
+        user.setEmail("s@gmail.com");
         user.setPassword("password");
-        user.setName("Test User");
+        user.setName("sam");
         entityManager.persist(user);
         entityManager.flush();
 
         // Act - search by email
-        Optional<User> found = userRepository.findByUsernameOrEmail("nonexistentuser", "test@example.com");
+        Optional<User> found = userRepository.findByUsernameOrEmail("samira", "s@gmail.com");
 
         // Assert
         assertTrue(found.isPresent());
-        assertEquals("test@example.com", found.get().getEmail());
-        assertEquals("testuser", found.get().getUsername());
+        assertEquals("s@gmail.com", found.get().getEmail());
+        assertEquals("samira", found.get().getUsername());
     }
 
     @Test
     void findByUsernameOrEmail_NotFound() {
         // Act
-        Optional<User> found = userRepository.findByUsernameOrEmail("nonexistent", "nonexistent@example.com");
+        Optional<User> found = userRepository.findByUsernameOrEmail("nonexistent", "nonexistent@gmail.com");
 
         // Assert
         assertFalse(found.isPresent());
@@ -99,15 +99,15 @@ class UserRepositoryTest {
     void existsByUsername_Exists() {
         // Arrange
         User user = new User();
-        user.setUsername("existinguser");
-        user.setEmail("existing@example.com");
+        user.setUsername("samira");
+        user.setEmail("s@gmail.com");
         user.setPassword("password");
-        user.setName("Existing User");
+        user.setName("sam");
         entityManager.persist(user);
         entityManager.flush();
 
         // Act
-        boolean exists = userRepository.existsByUsername("existinguser");
+        boolean exists = userRepository.existsByUsername("samira");
 
         // Assert
         assertTrue(exists);

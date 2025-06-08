@@ -29,20 +29,20 @@ class CustomUserDetailsServiceTest {
     void loadUserByUsername_UserFound() {
         // Arrange
         User user = new User();
-        user.setUsername("testuser");
+        user.setUsername("sam");
         user.setPassword("password");
         Role role = new Role("ROLE_USER");
         user.setRoles(Set.of(role));
 
-        when(userRepository.findByUsernameOrEmail("testuser", "testuser"))
+        when(userRepository.findByUsernameOrEmail("sam", "sam"))
                 .thenReturn(Optional.of(user));
 
         // Act
-        UserDetails userDetails = customUserDetailsService.loadUserByUsername("testuser");
+        UserDetails userDetails = customUserDetailsService.loadUserByUsername("sam");
 
         // Assert
         assertNotNull(userDetails);
-        assertEquals("testuser", userDetails.getUsername());
+        assertEquals("sam", userDetails.getUsername());
         assertEquals("password", userDetails.getPassword());
         assertTrue(userDetails.getAuthorities().stream()
                 .anyMatch(auth -> auth.getAuthority().equals("ROLE_USER")));
@@ -62,20 +62,20 @@ class CustomUserDetailsServiceTest {
     void loadUserByUsername_EmailFound() {
         // Arrange
         User user = new User();
-        user.setUsername("testuser");  // Add this required field
-        user.setEmail("test@example.com");
+        user.setUsername("sam");
+        user.setEmail("s@gmail.com");
         user.setPassword("password");
         Role role = new Role("ROLE_USER");
         user.setRoles(Set.of(role));
 
-        when(userRepository.findByUsernameOrEmail("test@example.com", "test@example.com"))
+        when(userRepository.findByUsernameOrEmail("s@gmail.com", "s@gmail.com"))
                 .thenReturn(Optional.of(user));
 
         // Act
-        UserDetails userDetails = customUserDetailsService.loadUserByUsername("test@example.com");
+        UserDetails userDetails = customUserDetailsService.loadUserByUsername("s@gmail.com");
         // Assert
         assertNotNull(userDetails);
-        assertEquals("testuser", userDetails.getUsername());  // Assert against username, not email
+        assertEquals("sam", userDetails.getUsername());
         assertEquals("password", userDetails.getPassword());
         assertTrue(userDetails.getAuthorities().stream()
                 .anyMatch(auth -> auth.getAuthority().equals("ROLE_USER")));
