@@ -85,12 +85,10 @@ class UserControllerTest {
     void updateUser_NotFound() {
         // Arrange
         when(userRepository.findById(1L)).thenReturn(Optional.empty());
-
         // Act & Assert
         assertThrows(RuntimeException.class, () ->
                 userController.updateUser(1L, new User()));
     }
-
     @Test
     @WithMockUser(roles = "ADMIN")
     void deleteUser_AdminAccess_Success() {
@@ -99,21 +97,17 @@ class UserControllerTest {
         user.setId(1L);
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));
         doNothing().when(userRepository).delete(user);
-
         // Act
         ResponseEntity<HttpStatus> response = userController.deleteUser(1L);
-
         // Assert
         assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
         verify(userRepository, times(1)).delete(user);
     }
-
     @Test
     @WithMockUser(roles = "ADMIN")
     void deleteUser_NotFound() {
         // Arrange
         when(userRepository.findById(1L)).thenReturn(Optional.empty());
-
         // Act & Assert
         assertThrows(RuntimeException.class, () -> userController.deleteUser(1L));
     }

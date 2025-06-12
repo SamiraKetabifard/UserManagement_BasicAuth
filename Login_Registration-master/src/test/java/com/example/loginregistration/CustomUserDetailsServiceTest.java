@@ -33,13 +33,10 @@ class CustomUserDetailsServiceTest {
         user.setPassword("password");
         Role role = new Role("ROLE_USER");
         user.setRoles(Set.of(role));
-
         when(userRepository.findByUsernameOrEmail("sam", "sam"))
                 .thenReturn(Optional.of(user));
-
         // Act
         UserDetails userDetails = customUserDetailsService.loadUserByUsername("sam");
-
         // Assert
         assertNotNull(userDetails);
         assertEquals("sam", userDetails.getUsername());
@@ -47,13 +44,11 @@ class CustomUserDetailsServiceTest {
         assertTrue(userDetails.getAuthorities().stream()
                 .anyMatch(auth -> auth.getAuthority().equals("ROLE_USER")));
     }
-
     @Test
     void loadUserByUsername_UserNotFound() {
         // Arrange
         when(userRepository.findByUsernameOrEmail("unknown", "unknown"))
                 .thenReturn(Optional.empty());
-
         // Act & Assert
         assertThrows(UsernameNotFoundException.class, () ->
                 customUserDetailsService.loadUserByUsername("unknown"));
@@ -67,10 +62,8 @@ class CustomUserDetailsServiceTest {
         user.setPassword("password");
         Role role = new Role("ROLE_USER");
         user.setRoles(Set.of(role));
-
         when(userRepository.findByUsernameOrEmail("s@gmail.com", "s@gmail.com"))
                 .thenReturn(Optional.of(user));
-
         // Act
         UserDetails userDetails = customUserDetailsService.loadUserByUsername("s@gmail.com");
         // Assert
@@ -80,5 +73,4 @@ class CustomUserDetailsServiceTest {
         assertTrue(userDetails.getAuthorities().stream()
                 .anyMatch(auth -> auth.getAuthority().equals("ROLE_USER")));
     }
-
 }
