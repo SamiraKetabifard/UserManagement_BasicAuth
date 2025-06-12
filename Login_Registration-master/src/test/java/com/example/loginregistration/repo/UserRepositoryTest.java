@@ -89,7 +89,8 @@ class UserRepositoryTest {
     @Test
     void findByUsernameOrEmail_NotFound() {
         // Act
-        Optional<User> found = userRepository.findByUsernameOrEmail("nonexistent", "nonexistent@gmail.com");
+        Optional<User> found = userRepository.findByUsernameOrEmail("nonexistent",
+                "nonexistent@gmail.com");
 
         // Assert
         assertFalse(found.isPresent());
